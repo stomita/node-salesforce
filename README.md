@@ -44,7 +44,7 @@ var conn = new sf.Connection({
 ```
 
 
-### Username and Password Login (SOAP API)
+### Username and Password Login and Logout (SOAP API)
 
 ```javascript
 var sf = require('node-salesforce');
@@ -59,6 +59,8 @@ conn.login(username, password, function(err) {
     // ...
   }
 });
+// then, to logout at a later point, invalidating the accessToken: (Enterprise API only)
+conn.logout();
 ```
 
 ### Username and Password Login (OAuth2 Resource Owner Password Credential)
