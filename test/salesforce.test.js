@@ -20,7 +20,7 @@ vows.describe("salesforce").addBatch({
     }, 
     "done" : function() { 
       assert.isString(conn.accessToken);
-      assert.isObject(conn.accessToken);
+      assert.isObject(conn.userInfo);
     }
   }
 
@@ -88,7 +88,7 @@ vows.describe("salesforce").addBatch({
   }
 
 
-}).addBatch({
+})/*.addBatch({
 
   "create account" : {
     topic : function() {
@@ -147,7 +147,8 @@ vows.describe("salesforce").addBatch({
 
 
 
-}).addBatch({
+})*/
+.addBatch({
 
 
   "create multiple accounts" : {
