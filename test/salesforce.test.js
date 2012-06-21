@@ -19,6 +19,7 @@ vows.describe("salesforce").addBatch({
     }, 
     "done" : function() { 
       assert.isString(conn.accessToken);
+      assert.isObject(conn.userInfo);
     }
   }
 
