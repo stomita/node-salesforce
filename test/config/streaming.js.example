@@ -1,0 +1,8 @@
+/**
+ * copy and save this as "streaming.js", by filling proper information;
+ */
+module.exports = {
+  username : "usernamen@example.org",
+  password : "your password is here"
+  pushTopicName : "your pushTopicName is here"
+};
