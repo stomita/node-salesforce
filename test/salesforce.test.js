@@ -7,7 +7,9 @@ var vows   = require('vows')
   , config = require('./config/salesforce')
   ;
 
-var conn = new sf.Connection();
+var conn = new sf.Connection({
+  loginUrl: config.loginServerUrl
+});
 var browser = new zombie.Browser();
 
 vows.describe("salesforce").addBatch({
