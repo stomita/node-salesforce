@@ -49,8 +49,9 @@ var conn = new sf.Connection({
 ```javascript
 var sf = require('node-salesforce');
 var conn = new sf.Connection({
-  loginUrl : 'https://login.salesforce.com'
-// loginUrl : 'https://test.salesforce.com' // you can change login URL to point sandbox env.
+  loginUrl : 'https://login.salesforce.com',
+  // loginUrl : 'https://test.salesforce.com' // you can change login URL to point sandbox env.
+  type: 'u', // Optional, SOAP API type. Options are "partner" or "enterprise", defaults to "partner"
 });
 conn.login(username, password, function(err) {
   if (!err) {

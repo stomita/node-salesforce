@@ -8,7 +8,8 @@ var vows   = require('vows')
   ;
 
 var conn = new sf.Connection({
-  loginUrl: config.loginServerUrl
+  loginUrl: config.loginServerUrl,
+  type: config.apiType
 });
 var browser = new zombie.Browser();
 
@@ -19,7 +20,7 @@ vows.describe("salesforce").addBatch({
     }, 
     "done" : function() { 
       assert.isString(conn.accessToken);
-      assert.isObject(conn.userInfo);
+      assert.isObject(conn.accessToken);
     }
   }
 
@@ -40,7 +41,7 @@ vows.describe("salesforce").addBatch({
       var records = [];
       var query = conn.query("SELECT Id, Name FROM " + (config.bigTable || 'Account'));
       query.on('record', function(record, i, cnt){
-        records.push(record); 
+        records.push(record);
       });
       query.on('end', function() {
         self.callback(null, { query : query, records : records });
@@ -53,8 +54,8 @@ vows.describe("salesforce").addBatch({
 
     "should scan records in one query fetch" : function(result) {
       assert.ok(result.query.totalFetched === result.records.length);
-      assert.ok(result.query.totalSize > 2000 ? 
-                result.query.totalFetched === 2000 : 
+      assert.ok(result.query.totalSize > 2000 ?
+                result.query.totalFetched === 2000 :
                 result.query.totalFetched === result.query.totalSize
       );
     }
@@ -66,7 +67,7 @@ vows.describe("salesforce").addBatch({
       var records = [];
       var query = conn.query("SELECT Id, Name FROM " + (config.bigTable || 'Account'));
       query.on('record', function(record, i, cnt){
-        records.push(record); 
+        records.push(record);
       });
       query.on('end', function() {
         self.callback(null, { query : query, records : records });
@@ -79,8 +80,8 @@ vows.describe("salesforce").addBatch({
 
     "should scan records up to maxFetch num" : function(result) {
       assert.ok(result.query.totalFetched === result.records.length);
-      assert.ok(result.query.totalSize > 5000 ? 
-                result.query.totalFetched === 5000 : 
+      assert.ok(result.query.totalSize > 5000 ?
+                result.query.totalFetched === 5000 :
                 result.query.totalFetched === result.query.totalSize
       );
     }
@@ -152,7 +153,7 @@ vows.describe("salesforce").addBatch({
   "create multiple accounts" : {
     topic : function() {
       conn.sobject('Account').create([
-        { Name : 'Account #1' }, 
+        { Name : 'Account #1' },
         { Name : 'Account #2' }
       ], this.callback);
     },
@@ -273,7 +274,7 @@ vows.describe("salesforce").addBatch({
       var rec = { Name : 'Duplicated Record' };
       rec[config.upsertField] = extId;
       conn.sobject(config.upsertTable).create(rec, this.callback);
-    }, 
+    },
 
   "and upsert with the same ext id" : {
     topic: function(ret3, record, ret2, ret1, extId) {
@@ -321,7 +322,7 @@ vows.describe("salesforce").addBatch({
       conn = new sf.Connection({
         clientId : config.clientId,
         clientSecret : config.clientSecret,
-        redirectUri : config.redirectUri 
+        redirectUri : config.redirectUri
       });
       browser.visit(conn.oauth2.getAuthorizationUrl(), this.callback);
     },
@@ -406,5 +407,25 @@ vows.describe("salesforce").addBatch({
 
   }}}}}}}
 
-}).export(module);
+})
+.addBatch({
+  "logout" : {
+    topic: function(){
+      if (conn.type === "enterprise"){
+        conn.logout(this.callback);
+      }else{
+        // partner API has no logout call - return all OK for this test.
+        this.callback(null);
+      }
+
+    },
+    done: function(){
+      if (conn.type === "enterprise"){
+        assert.isNull(conn.accessToken);
+        assert.isNull(conn.userInfo);
+      }
+    }
+  }
+})
+.export(module);
 
