@@ -5,5 +5,7 @@ module.exports = {
   clientId :       process.env.SF_OAUTH2_CLIENT_ID,
   clientSecret :   process.env.SF_OAUTH2_CLIENT_SECRET,
   redirectUri :    "http://localhost:4000/oauth2/callback",
-  bigTable :       "BigTable__c"
+  bigTable :       "BigTable__c",
+  upsertTable :    "UpsertTable__c",
+  upsertField :    "ExtId__c"
 };
