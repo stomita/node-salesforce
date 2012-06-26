@@ -2,7 +2,9 @@
   "author": "Shinichi Tomita <shinichi.tomita@gmail.com>",
   "name": "node-salesforce",
   "description": "Connecting Salesforce via RESTful API",
-  "version": "0.1.3",
+  "keywords": [ "salesforce", "salesforce.com", "sfdc", "force.com", "database.com" ],
+  "homepage": "http://github.com/stomita/node-salesforce",
+  "version": "0.2.0",
   "repository": {
     "type": "git",
     "url": "git://github.com/stomita/node-salesforce.git"
@@ -24,6 +26,8 @@
     "underscore": ">= 1.2.1"
   },
   "devDependencies": {
-    "vows": ">= 0.5.11"
+    "express": ">= 2.4.3",
+    "vows": ">= 0.5.11",
+    "zombie": ">= 0.12.9"
   }
 }
