@@ -3,5 +3,8 @@ node_js:
   - 0.4
   - 0.6
   - 0.7
+branches:
+  only:
+    - travis-ci
 env:
   - SF_USERNAME=user01@node-salesforce.test.org SF_PASSWORD=password123 SF_OAUTH2_CLIENT_ID=3MVG9y6x0357HleeMR7DgQcPTOItBGc4UFCM.GP_ilq4e.ES0PGaFmUHq1tj3Ti2uIMAnsrl8nddNhoWCApNV SF_OAUTH2_CLIENT_SECRET=680166890015393884
