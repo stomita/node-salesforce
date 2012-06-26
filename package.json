@@ -4,7 +4,7 @@
   "description": "Connecting Salesforce via RESTful API",
   "keywords": [ "salesforce", "salesforce.com", "sfdc", "force.com", "database.com" ],
   "homepage": "http://github.com/stomita/node-salesforce",
-  "version": "0.3.0",
+  "version": "0.3.1",
   "repository": {
     "type": "git",
     "url": "git://github.com/stomita/node-salesforce.git"
@@ -27,8 +27,8 @@
     "faye": "0.8.x"
   },
   "devDependencies": {
-    "express": ">= 2.4.3",
-    "vows": ">= 0.5.11",
-    "zombie": ">= 0.12.9"
+    "express": "2.5.x",
+    "vows": "0.5.x",
+    "zombie": "0.12.x"
   }
 }
