@@ -46,13 +46,14 @@ var conn = new sf.Connection({
 ```
 
 
-### Username and Password Login (SOAP API)
+### Username and Password Login and Logout (SOAP API)
 
 ```javascript
 var sf = require('node-salesforce');
 var conn = new sf.Connection({
-  loginUrl : 'https://login.salesforce.com'
-// loginUrl : 'https://test.salesforce.com' // you can change login URL to point sandbox env.
+  loginUrl : 'https://login.salesforce.com',
+  // loginUrl : 'https://test.salesforce.com' // you can change login URL to point sandbox env.
+  type: 'enterprise', // Optional, SOAP API type. Options are "partner" or "enterprise", defaults to "partner"
 });
 conn.login(username, password, function(err) {
   if (!err) {
@@ -60,6 +61,8 @@ conn.login(username, password, function(err) {
     // ...
   }
 });
+// then, to logout at a later point, invalidating the accessToken: (Enterprise API only)
+conn.logout();
 ```
 
 ### Username and Password Login (OAuth2 Resource Owner Password Credential)
