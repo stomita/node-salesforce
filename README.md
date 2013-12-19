@@ -717,6 +717,7 @@ Please refer to Analytics API document about the format of retruning result.
 // get report reference
 var reportId = '00O10000000pUw2EAE';
 var report = conn.analytics.report(reportId);
+
 // execute report synchronously
 report.execute(function(err, result) {
   if (err) { return console.error(err); }
@@ -770,17 +771,27 @@ report.execute({ metadata : metadata }, function(err, result) {
 });
 ```
 
-`Report#executeAsync(options, callback)` executes the report asynchronously in Salesforce, registering an instance to the report to lookup the executed result in future.
+`Report#executeAsync(options)` executes the report asynchronously in Salesforce, registering an instance to the report to lookup the executed result in future.
 
 ```javascript
-// get report reference
-var report = conn.analytics.report(reportId);
-// execute report synchronously
+var instanceId;
+
+// execute report asynchronously
 report.executeAsync({ details: true }, function(err, instance) {
+  if (err) { return console.error(err); }
+  console.log(instance.id); // <= registered report instance id
+  instanceId = instance.id;
+  // ...
+});
+
+// retrieve asynchronously executed result afterward.
+report.instance(instanceId).retrieve(function(err, result) {
   if (err) { return console.error(err); }
   console.log(result.reportMetadata);
   console.log(result.factMap);
   console.log(result.factMap["T!T"]);
+  console.log(result.factMap["T!T"].aggregates);
+  console.log(result.factMap["T!T"].rows);
   // ...
 });
 ```
@@ -1187,10 +1198,10 @@ Because the REPL automatically waits the promised object during its evaluation, 
 
 ```
 $ sfjs
-&gt; login("username@example.org", "mypassword123");
+> login("username@example.org", "mypassword123");
 { id: '005xxxxxxxxxxxxxxx',
   organizationId: '00Dyyyyyyyyyyyyyyy' }
-&gt; sobject('Account').find({}, "Id, Name").sort({ CreatedDate: 1}).limit(5);
+> sobject('Account').find({}, "Id, Name").sort({ CreatedDate: 1}).limit(5);
 [ { attributes: 
      { type: 'Account',
        url: '/services/data/v28.0/sobjects/Account/001i0000009PyDrAAK' },
@@ -1216,13 +1227,18 @@ $ sfjs
        url: '/services/data/v28.0/sobjects/Account/001i0000009PyDvAAK' },
     Id: '001i0000009PyDvAAK',
     Name: 'Burlington Textiles Corp of America' } ]
-&gt; _[0].Name
+> _[0].Name
 'GenePoint'
-&gt;
+>
 ```
 
 
 ## Change History
+
+v0.7.1 (Dec 19, 2013):
+
+* Support SObject get updated/deleted.
+
 
 v0.7.0 (Dec 11, 2013):
 
